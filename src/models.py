@@ -47,6 +47,7 @@ class Result(object):
         self.add_route([0] + route + [0])
 
     def compute_length(self):
+        """compute distance, save to self.length and return"""
         length = 0
         cities = self.world.cities
 
@@ -57,6 +58,7 @@ class Result(object):
                 prev_city = city
 
         self.length = length
+        return length
 
     def print_result(self, stream=stdout):
         if self.length < 0.0:
@@ -67,3 +69,14 @@ class Result(object):
 
         for route in self.routes:
             stream.write(" ".join(str(i) for i in route) + "\n")
+
+
+class Chromosome(object):
+
+    gens = None
+
+    def __init__(self, gens):
+        self.gens = gens
+
+    def mutation(self):
+        pass

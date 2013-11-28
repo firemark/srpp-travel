@@ -1,5 +1,5 @@
 from random import shuffle, randint
-from models import Result
+from models import Result, Chromosome
 
 
 def find_routes(world):
@@ -17,3 +17,7 @@ def find_routes(world):
         temp += r
 
     return result
+
+
+def crossover(a, b):
+    return Chromosome([])
