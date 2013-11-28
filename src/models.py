@@ -52,7 +52,7 @@ class Result(object):
 
         for route in self.routes:
             prev_city = route[0]
-            for city in route:
+            for city in route[1:]:
                 length += distance(cities[city], cities[prev_city])
                 prev_city = city
 
