@@ -19,5 +19,15 @@ def find_routes(world):
     return result
 
 
+def randomize():
+    pass
+    #return chroms
+
+
+def selection(chroms):
+    #return good chroms
+    pass
+
+
 def crossover(a, b):
     return Chromosome([])
