@@ -1,11 +1,14 @@
 from math import sqrt
 
 class Place(object):
-    coordinates = []
+    coordinates = None
 
     def __init__(self, x, y):
-        self.coordinates[0] = x
-        self.coordinates[1] = y
+    	self.coordinates = []
+        self.coordinates.append(x)
+        self.coordinates.append(y)
+
+    def __str__(self): return str(self.coordinates)
 
     def distance(self, another_place):
         return sqrt(sum((ea - eb)**2 for ea, eb in zip(self.coordinates, another_place.coordinates)))

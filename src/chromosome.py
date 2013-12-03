@@ -1,3 +1,5 @@
+from random import randint
+
 from place import Place
 
 class Chromosome(object):
@@ -25,7 +27,8 @@ class Chromosome(object):
     def do_evaluation(self):
         prev_place = self.magazine
         counter = 0
-        for place in genes:
+        length = 0.0
+        for place in self.genes:
             length += place.distance(prev_place)
             prev_place = place
             counter += 1
@@ -41,5 +44,6 @@ class Chromosome(object):
     def do_crossover(self, other_chromosome):
         half_length = len(self.genes)/2
         del self.genes[half_length:]
-        for gene in other_chromosome.genes[:half_length]
+        for gene in other_chromosome.genes[:half_length]:
             self.genes.append(gene)
+        return self

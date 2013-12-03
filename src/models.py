@@ -1,5 +1,4 @@
 from os.path import basename
-from misc import distance
 from sys import stdout
 from place import Place
 
@@ -20,6 +19,7 @@ class World(object):
 
     def get_magazine_place(self):
         city = self.cities[0]
+        print city[0]
         magazine_place = Place(city[0], city[1])
         return magazine_place
 
@@ -42,45 +42,3 @@ class World(object):
             world.cities = [tuple(int(i) for i in line.split()) for line in f]
 
         return world
-
-
-class Result(object):
-
-    world = None
-    routes = None
-    length = -1.0
-
-    def __init__(self, world):
-        self.world = world
-        self.routes = []
-
-    def add_route(self, route):
-        self.routes.append(route)
-
-    def add_route_with_magazine(self, route):
-        self.add_route([0] + route + [0])
-
-    def compute_length(self):
-        """compute distance, save to self.length and return"""
-        length = 0
-        cities = self.world.cities
-
-        for route in self.routes:
-            prev_city = route[0]
-            for city in route[1:]:
-                length += distance(cities[city], cities[prev_city])
-                prev_city = city
-
-        self.length = length
-        return length
-
-    def print_result(self, stream=stdout):
-        #if self.length < 0.0:
-        #    self.compute_length()
-
-        stream.write("%f\n" % self.length)
-        stream.write("%d\n" % len(self.routes))
-
-        for route in self.routes:
-            stream.write(" ".join(str(i) for i in route) + "\n")
-

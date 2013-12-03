@@ -14,36 +14,39 @@ class Breeder(object):
         self.chromosome_list_paired = []
 
     def mutate_chromosomes(self):
-        for chromosome in chromosome_list
+        #print self.chromosome_list
+        for chromosome in self.chromosome_list:
             random_percent = randint(1, 100)
             if random_percent <= mutation_chance_perc:
                 chromosome.do_mutation()
 
     def sort_chromosomes_by_value(self):
-        for chromosome in self.chromosome_list
+        #print self.chromosome_list
+        for chromosome in self.chromosome_list:
             chromosome.do_evaluation()
         self.chromosome_list.sort(key=lambda chromosome: chromosome.value)
 
     def remove_weak_chromosomes(self):
-        sort_chromosome_list_by_value()
-        half_length = len(chromosome_list)/2
-        del chromosome_list[half_length:]
+        self.sort_chromosomes_by_value()
+        half_length = len(self.chromosome_list)/2
+        del self.chromosome_list[half_length:]
 
     def pair_chromosomes(self):
-        while(len(chromosome_list) > 1):
+        while(len(self.chromosome_list) > 1):
             pair = []
+            random_number1 = randint(0, len(self.chromosome_list) - 1)
+            pair.append(self.chromosome_list.pop(random_number1))
+            random_number2 = randint(0, len(self.chromosome_list) - 1)
+            pair.append(self.chromosome_list.pop(random_number2))
             
-            random_number1 = randint(0, len(chromosome_list))
-            pair[0] = chromosome_list.pop(random_number1)
-            random_number2 = randint(0, len(chromosome_list))
-            pair[1] = chromosome_list.pop(random_number2)
-            
-            chromosome_list_paired.append(pair)
+            self.chromosome_list_paired.append(pair)
         
         # if not even number of chromosomes, pair last chromosome with his clone
-        if len(chromosome_list) == 1 :
-            pair[0] = chromosome_list[0]
-            pair[1] = chromosome_list[0]
+        if len(self.chromosome_list) == 1 :
+            pair = []
+            pair.append(self.chromosome_list[0])
+            pair.append(self.chromosome_list[0])
+            self.chromosome_list_paired.append(pair)
 
     def crossover_chromosomes(self):
         for pair in self.chromosome_list_paired:
@@ -52,16 +55,16 @@ class Breeder(object):
             self.chromosome_list.append(chromosome0)
             self.chromosome_list.append(chromosome1)
 
-        chromosome_list_paired = []
+        self.chromosome_list_paired = []
 
     def do_shit(self):
-        remove_weak_chromosomes()
-        pair_chromosomes()
-        crossover_chromosomes()
-        mutate_chromosomes()
+        self.remove_weak_chromosomes()
+        self.pair_chromosomes()
+        self.crossover_chromosomes()
+        self.mutate_chromosomes()
 
     def get_best_chromosome(self):
-        sort_chromosomes_by_value()
+        self.sort_chromosomes_by_value()
         return self.chromosome_list[0]
 
     def feed_breeder(self, world):
@@ -69,7 +72,7 @@ class Breeder(object):
         places_list = world.get_places_list()
         places_in_row = world.k
 
-        for number in range(population)
+        for number in range(population):
             shuffle(places_list)
             chromosome = Chromosome(places_list, magazine_place, places_in_row)
             self.chromosome_list.append(chromosome)
@@ -90,11 +93,11 @@ class Breeder(object):
 
 
     def get_result_world(self):
-        chromosome = get_best_chromosome()
-        world = chromosome_to_world(chromosome)
+        chromosome = self.get_best_chromosome()
+        world = self.chromosome_to_world(chromosome)
         return world
 
     def get_result_value(self):
-        chromosome = get_best_chromosome()
+        chromosome = self.get_best_chromosome()
         value = chromosome.value
         return value

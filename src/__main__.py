@@ -1,6 +1,7 @@
 import argparse
 from models import World
-from genetic import find_routes
+from chromosome import Chromosome
+from genetic import compute_result, print_result
 
 
 def get_parser():
@@ -20,7 +21,8 @@ def run(args):
 
     print("----")
 
-    find_routes(world).print_result()
+    result = compute_result(world)
+    print_result(result)
 
 if __name__ == "__main__":
     run(get_parser().parse_args())
