@@ -3,7 +3,6 @@ from misc import distance
 from sys import stdout
 
 from place import Place
-from breeder import Breeder
 
 
 class World(object):
@@ -41,21 +40,34 @@ class Result(object):
     world = None
     routes = None
     length = -1.0
-    breeder = None
 
     def __init__(self, world):
         self.world = world
         self.routes = []
 
     def add_route(self, route):
+        if len(route) > self.world.k + 2:
+                raise Exception("Route is too big")
         self.routes.append(route)
 
     def add_route_with_magazine(self, route):
         self.add_route([0] + route + [0])
 
+    def validate(self):
+        """raise exceptions if have any errors"""
+        routes_set = set()
+
+        for i, route_set in enumerate(set(r) for r in self.routes):
+            res = route_set & routes_set
+            if res:
+                raise Exception("repeated indexes %s in %d route" % (res, i))
+            routes_set |= route_set
+
     def compute_length(self):
         """compute distance, save to self.length and return"""
-        length = 0
+        self.validate()
+
+        length = 0.0
         cities = self.world.cities
 
         for route in self.routes:
