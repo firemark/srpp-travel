@@ -8,7 +8,7 @@ def compute_result(world):
     breeder = Breeder()
     breeder.feed_breeder(world)
 
-    for number in range(iterations):
+    for number in xrange(iterations):
         breeder.do_shit()
 
     result_chromosome = breeder.get_best_chromosome()

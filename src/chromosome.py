@@ -15,8 +15,8 @@ class Chromosome(object):
         self.places_in_row = places_in_row
 
     def do_mutation(self):
-        random_gene_id_1 = randint(1, len(self.genes))
-        random_gene_id_2 = randint(1, len(self.genes))
+        random_gene_id_1 = randint(1, len(self.genes) -1)
+        random_gene_id_2 = randint(1, len(self.genes) -1)
         
         temporary_gene_1 = self.genes[random_gene_id_1]
         temporary_gene_2 = self.genes[random_gene_id_2]
