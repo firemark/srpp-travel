@@ -23,23 +23,23 @@ class Chromosome(object):
 
     # TODO: make this method better. This is ugly
     def do_evaluation(self):
-    	prev_place = self.magazine
-    	counter = 0
-    	for place in genes:
-    		length += place.distance(prev_place)
-    		prev_place = place
-    		counter += 1
-    		
-    		# return to magazine
-    		if counter == self.places_in_row :
-    			prev_place = self.magazine
-    			length += place.distance(prev_place)
-    			counter = 0
+        prev_place = self.magazine
+        counter = 0
+        for place in genes:
+            length += place.distance(prev_place)
+            prev_place = place
+            counter += 1
+            
+            # return to magazine
+            if counter == self.places_in_row :
+                prev_place = self.magazine
+                length += place.distance(prev_place)
+                counter = 0
 
-    	self.value = length
+        self.value = length
 
     def do_crossover(self, other_chromosome):
-    	half_length = len(self.genes)/2
-    	del self.genes[half_length:]
-    	for gene in other_chromosome.genes[:half_length]
-    		self.genes.append(gene)
+        half_length = len(self.genes)/2
+        del self.genes[half_length:]
+        for gene in other_chromosome.genes[:half_length]
+            self.genes.append(gene)

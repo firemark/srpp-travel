@@ -51,6 +51,7 @@ class Result(object):
     world = None
     routes = None
     length = -1.0
+    breeder = None
 
     def __init__(self, world):
         self.world = world
