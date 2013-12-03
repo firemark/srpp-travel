@@ -22,7 +22,7 @@ class Breeder(object):
     def sort_chromosomes_by_value(self):
         for chromosome in self.chromosome_list
             chromosome.do_evaluation()
-        sorted(self.chromosome_list, key=lambda chromosome: chromosome.value)
+        self.chromosome_list.sort(key=lambda chromosome: chromosome.value)
 
     def remove_weak_chromosomes(self):
         sort_chromosome_list_by_value()
@@ -73,4 +73,4 @@ class Breeder(object):
             shuffle(places_list)
             chromosome = Chromosome(places_list, magazine_place, places_in_row)
             self.chromosome_list.append(chromosome)
-        
+
