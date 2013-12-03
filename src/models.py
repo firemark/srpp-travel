@@ -2,6 +2,9 @@ from os.path import basename
 from misc import distance
 from sys import stdout
 
+from place import Place
+from breeder import Breeder
+
 
 class World(object):
     filename = ""
@@ -16,6 +19,19 @@ class World(object):
 
     def set_magazine(self, val):
         self.cities[0] = val
+
+    def get_magazine_place(self):
+        city = self.cities[0]
+        magazine_place = Place(city[0], city[1])
+        return magazine_place
+
+    # get list of place objects, without magazine
+    def get_places_list(self):
+        places_list = []
+        for city in self.cities[1:] :
+            place = Place(city[0], city[1])
+            places_list.append(place)
+        return places_list
 
     magazine = property(get_magazine, set_magazine)
 
@@ -70,13 +86,3 @@ class Result(object):
         for route in self.routes:
             stream.write(" ".join(str(i) for i in route) + "\n")
 
-
-class Chromosome(object):
-
-    gens = None
-
-    def __init__(self, gens):
-        self.gens = gens
-
-    def mutation(self):
-        pass
