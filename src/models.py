@@ -1,9 +1,7 @@
 from os.path import basename
 from misc import distance
 from sys import stdout
-
 from place import Place
-from breeder import Breeder
 
 
 class World(object):
@@ -51,7 +49,6 @@ class Result(object):
     world = None
     routes = None
     length = -1.0
-    breeder = None
 
     def __init__(self, world):
         self.world = world
@@ -78,8 +75,8 @@ class Result(object):
         return length
 
     def print_result(self, stream=stdout):
-        if self.length < 0.0:
-            self.compute_length()
+        #if self.length < 0.0:
+        #    self.compute_length()
 
         stream.write("%f\n" % self.length)
         stream.write("%d\n" % len(self.routes))

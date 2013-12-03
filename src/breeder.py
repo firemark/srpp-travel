@@ -9,7 +9,7 @@ class Breeder(object):
     chromosome_list = None
     chromosome_list_paired = None
 
-    def __init__(self, chromosome_list):
+    def __init__(self):
         self.chromosome_list = []
         self.chromosome_list_paired = []
 
@@ -74,3 +74,27 @@ class Breeder(object):
             chromosome = Chromosome(places_list, magazine_place, places_in_row)
             self.chromosome_list.append(chromosome)
 
+    def chromosome_to_world(chromosome):
+        world = World()
+        magazine_tuple = (chromosome.magazine[0], chromosome.magazine[1])
+        world.set_magazine(magazine_tuple)
+
+        world.k = chromosome.places_in_row
+
+        world.cities = []
+        for place in chromosome.genes:
+            place_tuple = (place[0], place[1])
+            world.append(place_tuple)
+
+        return world
+
+
+    def get_result_world(self):
+        chromosome = get_best_chromosome()
+        world = chromosome_to_world(chromosome)
+        return world
+
+    def get_result_value(self):
+        chromosome = get_best_chromosome()
+        value = chromosome.value
+        return value

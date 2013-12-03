@@ -1,33 +1,18 @@
 from random import shuffle, randint
-from models import Result, Chromosome
-
+from models import Result
+from breeder import Breeder
+from config import iterations
 
 def find_routes(world):
-    """dummy function"""
-    result = Result(world)
+    # styk breedera i reszty programu
+    breeder = Breeder()
+    breeder.feed_breeder(world)
 
-    len_cities = len(world.cities)
-    cities = range(1, len_cities)
-    shuffle(cities)
+    for number in range(iterations)
+        breeder.do_shit()
 
-    temp = 0
-    while(temp < len_cities - 1):
-        r = randint(1, world.k)
-        result.add_route_with_magazine(cities[temp:temp + r])
-        temp += r
-
+    result_world = breeder.get_result_world()
+    result = Result(result_world)
+    result.length = breeder.get_result_value()
+    
     return result
-
-
-def randomize():
-    pass
-    #return chroms
-
-
-def selection(chroms):
-    #return good chroms
-    pass
-
-
-def crossover(a, b):
-    return Chromosome([])
