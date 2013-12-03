@@ -27,7 +27,7 @@ class Breeder(object):
     def remove_weak_chromosomes(self):
         sort_chromosome_list_by_value()
         half_length = len(chromosome_list)/2
-        del chromosome_list[length:]
+        del chromosome_list[half_length:]
 
     def pair_chromosomes(self):
         while(len(chromosome_list) > 1):
