@@ -11,23 +11,20 @@ class Place(object):
     coordinates = None
     number = None
 
-    def __init__(self, x, y, number):
-        self.coordinates = []
-        self.coordinates.append(x)
-        self.coordinates.append(y)
+    def __init__(self, number, cor):
+        self.coordinates = (cor[0], cor[1])
         self.number = number
+
+    def __iter__(self):
+        return iter(self.coordinates)
 
     def __str__(self):
         return str(self.coordinates)
 
-    # 40 sekund wykonywania sie dla population 25, iterations 250
-    # def distance(self, another_place):
-    # return sqrt(sum((ea - eb) ** 2 for ea, eb in zip(self.coordinates,
-    # another_place.coordinates)))
-
     # 15 sekund wykonywania sie dla population 25, iterations 250
     def distance(self, another):
-        return sqrt((self.coordinates[0] - another.coordinates[0]) ** 2 + (self.coordinates[1] - another.coordinates[1]) ** 2)
+        return sqrt((self.coordinates[0] - another.coordinates[0]) ** 2 +
+                   (self.coordinates[1] - another.coordinates[1]) ** 2)
 
 
 class Chromosome(object):
@@ -68,11 +65,9 @@ class World(object):
         world.filename = basename(path)
         with open(path) as f:
             world.k = int(f.readline())
-            counter = 0
-            for line in f:
-                row = line.split()
-                world.cities.append(Place(int(row[0]), int(row[1]), counter))
-                counter += 1
+            for i, line in enumerate(f):
+                row = [int(i) for i in line.split()]
+                world.cities.append(Place(i, row))
 
         return world
 

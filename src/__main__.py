@@ -15,8 +15,7 @@ def run(args):
     world = World.from_file(args.path_to_file)
 
     print("filename: %s" % world.filename)
-    # TODO FIREMARK. NIE DZIALA
-    #print("magazine x: %d y: %d" % world.magazine)
+    print("magazine x: {} y: {}".format(*world.magazine))
     print("len of cities: %d" % len(world.cities))
     print("k: %d" % world.k)
 
