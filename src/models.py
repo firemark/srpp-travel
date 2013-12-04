@@ -18,8 +18,13 @@ class Place(object):
     def __str__(self):
         return str(self.coordinates)
 
-    def distance(self, another_place):
-        return sqrt(sum((ea - eb) ** 2 for ea, eb in zip(self.coordinates, another_place.coordinates)))
+    # 40 sekund wykonywania sie
+    #def distance(self, another_place):
+    #    return sqrt(sum((ea - eb) ** 2 for ea, eb in zip(self.coordinates, another_place.coordinates)))
+
+    # 15 sekund wykonywania sie
+    def distance(self, another):
+        return sqrt((self.coordinates[0] - another.coordinates[0])**2 + (self.coordinates[1] - another.coordinates[1])**2)
 
 
 

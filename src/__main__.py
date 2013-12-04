@@ -30,5 +30,8 @@ def run(args):
     #result.compute_length()
     result.print_result()
 
+
+
 if __name__ == "__main__":
     run(get_parser().parse_args())
+

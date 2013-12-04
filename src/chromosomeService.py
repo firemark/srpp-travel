@@ -29,13 +29,7 @@ class ChromosomeService(object):
         chromosome.genes[random_gene_id_1] = temporary_gene_2
         chromosome.genes[random_gene_id_2] = temporary_gene_1
 
-    #TODO repair this shit
     def crossover(self, chromosome1, chromosome2):
-        # half_length = len(chromosome1.genes)/2
-        # del chromosome1.genes[half_length:]
-        # for gene in chromosome2.genes[:half_length]:
-        #     chromosome1.genes.append(gene)
-        # return chromosome1
 
         # get cutting range
         cut_start = randint(0, len(chromosome1.genes) -2)
@@ -47,27 +41,25 @@ class ChromosomeService(object):
         # paste fragment of chromosome1 genes
         child_genes_ugly[cut_start:cut_start] = chromosome1.genes[cut_start:cut_end]
 
-        # remove duplicates from child genes. Here be dragons. DO NOT TOUCH IT
-        child_genes = self.crossover_remove_duplicates(child_genes_ugly)
-        #[child_genes.append(i) for i in child_genes_ugly if not child_genes.count(i)]
+        child_genes = self.remove_duplicates_from_list(child_genes_ugly)
 
         # create and return child chromosome
         child_chromosome = Chromosome(child_genes, chromosome1.magazine, chromosome1.places_in_row)
         return child_chromosome
 
-
-	def crossover_remove_duplicates(seq, idfun=None): 
-	   # order preserving
-	   if idfun is None:
-	       def idfun(x): return x
-	   seen = {}
-	   result = []
-	   for item in seq:
-	       marker = idfun(item)
-	       # in old Python versions:
-	       # if seen.has_key(marker)
-	       # but in new ones:
-	       if marker in seen: continue
-	       seen[marker] = 1
-	       result.append(item)
-	   return result
+    # HERE BE DRAGONS. FAST AND FAST. DO NOT TOUCH IT
+    def remove_duplicates_from_list(self, seq, idfun=None): 
+       # order preserving
+       if idfun is None:
+           def idfun(x): return x
+       seen = {}
+       result = []
+       for item in seq:
+           marker = idfun(item)
+           # in old Python versions:
+           # if seen.has_key(marker)
+           # but in new ones:
+           if marker in seen: continue
+           seen[marker] = 1
+           result.append(item)
+       return result
