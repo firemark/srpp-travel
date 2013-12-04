@@ -48,9 +48,26 @@ class ChromosomeService(object):
         child_genes_ugly[cut_start:cut_start] = chromosome1.genes[cut_start:cut_end]
 
         # remove duplicates from child genes. Here be dragons. DO NOT TOUCH IT
-        child_genes = []
-        [child_genes.append(i) for i in child_genes_ugly if not child_genes.count(i)]
+        child_genes = self.crossover_remove_duplicates(child_genes_ugly)
+        #[child_genes.append(i) for i in child_genes_ugly if not child_genes.count(i)]
 
         # create and return child chromosome
         child_chromosome = Chromosome(child_genes, chromosome1.magazine, chromosome1.places_in_row)
         return child_chromosome
+
+
+	def crossover_remove_duplicates(seq, idfun=None): 
+	   # order preserving
+	   if idfun is None:
+	       def idfun(x): return x
+	   seen = {}
+	   result = []
+	   for item in seq:
+	       marker = idfun(item)
+	       # in old Python versions:
+	       # if seen.has_key(marker)
+	       # but in new ones:
+	       if marker in seen: continue
+	       seen[marker] = 1
+	       result.append(item)
+	   return result
