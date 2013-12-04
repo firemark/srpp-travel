@@ -4,37 +4,26 @@ from random import randint
 from misc import distance
 from math import sqrt
 
-
-# TODO add number of city
+# NIE ZMIENIAJ TEGO ZNOWU NA KROTKI. IT WORKS.
 class Place(object):
     coordinates = None
-    #number = none
-
-# TAK TEŻ NIE MOZNA, WYWALA SIE
-#    def __init__(self, *cor):
-#        self.coordinates = cor
-#        #number = number
-
-    def __init__(self, x, y):
+    number = None
+    
+    def __init__(self, x, y, number):
+        self.coordinates = []
         self.coordinates.append(x)
         self.coordinates.append(y)
-
-    def __iter__(self):
-        return iter(self.coordinates)
+        self.number = number
 
     def __str__(self):
         return str(self.coordinates)
-
-# NIE, TAK NIE MOZNA. WYWALA SIE...
-#    def distance(self, another_place):
-#        return distance(self, another_place)
 
     def distance(self, another_place):
         return sqrt(sum((ea - eb) ** 2 for ea, eb in zip(self.coordinates, another_place.coordinates)))
 
 
-class Chromosome(object):
 
+class Chromosome(object):
     genes = []
     value = -1.0
     magazine = None
@@ -65,14 +54,18 @@ class World(object):
 
     magazine = property(get_magazine, set_magazine)
 
+    # PRZEROBILEM, TERAZ DZIALA.
     @staticmethod
     def from_file(path):
         world = World()
         world.filename = basename(path)
         with open(path) as f:
             world.k = int(f.readline())
-            #TODO add numbering the cities
-            world.cities = [Place(int(i) for i in line.split()) for line in f]
+            counter = 0
+            for line in f:
+                row = line.split();
+                world.cities.append(Place(int(row[0]), int(row[1]), counter))
+                counter += 1
 
         return world
 
@@ -105,6 +98,7 @@ class Result(object):
                 raise Exception("repeated indexes %s in %d route" % (res, i))
             routes_set |= route_set
 
+    # TODO FIREMARK. NIE DZIALA
     def compute_length(self):
         """compute distance, save to self.length and return"""
         self.validate()
@@ -121,12 +115,23 @@ class Result(object):
         self.length = length
         return length
 
+    # def print_result(self, stream=stdout):
+    #     print self.world.cities
+    #     if self.length < 0.0:
+    #         self.compute_length()
+
+    #     stream.write("%f\n" % self.length)
+    #     stream.write("%d\n" % len(self.routes))
+
+    #     for route in self.routes:
+    #         stream.write(" ".join(str(i) for i in route) + "\n")
+
+    # FUNKCJA-PROTOTYP, DO DEBUGU ALGORYTMU. POZNIEJ WYSWIETLISZ SOBIE JAK CHCESZ
     def print_result(self, stream=stdout):
-        if self.length < 0.0:
-            self.compute_length()
-
-        stream.write("%f\n" % self.length)
-        stream.write("%d\n" % len(self.routes))
-
-        for route in self.routes:
-            stream.write(" ".join(str(i) for i in route) + "\n")
+        counter = -1
+        for place in self.world.cities:
+            print place
+            counter += 1
+            if counter == 5 :
+                counter = 0
+                print self.world.cities[0]

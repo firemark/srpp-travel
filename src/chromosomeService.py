@@ -1,4 +1,5 @@
 from models import Chromosome, Place
+from random import randint
 
 class ChromosomeService(object):
     
@@ -19,7 +20,7 @@ class ChromosomeService(object):
 
         chromosome.value = length
 
-    def mutatate(self, chromosome):
+    def mutate(self, chromosome):
         random_gene_id_1 = randint(1, len(chromosome.genes) -1)
         random_gene_id_2 = randint(1, len(chromosome.genes) -1)
         
@@ -30,7 +31,7 @@ class ChromosomeService(object):
 
     #TODO repair this shit
     def crossover(self, chromosome1, chromosome2):
-        half_length = len(self.genes)/2
+        half_length = len(chromosome1.genes)/2
         del chromosome1.genes[half_length:]
         for gene in chromosome2.genes[:half_length]:
             chromosome1.genes.append(gene)

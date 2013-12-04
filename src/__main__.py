@@ -14,19 +14,19 @@ def run(args):
     world = World.from_file(args.path_to_file)
 
     print("filename: %s" % world.filename)
-    #TODO FIREMARK POPRAW TO :-(
-    #print("magazine x: %d y: %d" % world.cities[0].coordinates[0], world.cities[0].coordinates[1])
+    #TODO FIREMARK. NIE DZIALA
+    #print("magazine x: %d y: %d" % world.magazine)
     print("len of cities: %d" % len(world.cities))
     print("k: %d" % world.k)
 
-    print("----")
+    print("----")   
 
     breeder = Breeder(world)
     for number in xrange(iterations):
         breeder.do_shit()
 
     result = breeder.get_result()
-    result.compute_length()
+    #result.compute_length()
     result.print_result()
 
 if __name__ == "__main__":
