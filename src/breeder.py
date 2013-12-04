@@ -3,6 +3,7 @@ from chromosomeService import ChromosomeService
 from models import Result, World, Chromosome, Place
 from config import mutation_chance_perc, population
 
+
 class Breeder(object):
 
     chromosome_list = None
@@ -26,12 +27,13 @@ class Breeder(object):
     def sort_chromosomes_by_value(self):
         for chromosome in self.chromosome_list:
             self.chromosomeService.evaluate(chromosome)
-        
-        self.chromosome_list.sort(key=lambda chromosome: chromosome.value, reverse=True)
+
+        self.chromosome_list.sort(
+            key=lambda chromosome: chromosome.value, reverse=True)
 
     def remove_weak_chromosomes(self):
         self.sort_chromosomes_by_value()
-        half_length = len(self.chromosome_list)/2
+        half_length = len(self.chromosome_list) / 2
         del self.chromosome_list[:half_length]
 
     def pair_chromosomes(self):
@@ -43,11 +45,12 @@ class Breeder(object):
             pair.append(chromosome_list_tmp.pop(random_number1))
             random_number2 = randint(0, len(chromosome_list_tmp) - 1)
             pair.append(chromosome_list_tmp.pop(random_number2))
-            
+
             self.chromosome_list_paired.append(pair)
-        
-        # if not even number of chromosomes, pair last chromosome with his clone
-        if len(chromosome_list_tmp) == 1 :
+
+        # if not even number of chromosomes, pair last chromosome with his
+        # clone
+        if len(chromosome_list_tmp) == 1:
             pair = []
             pair.append(chromosome_list_tmp[0])
             pair.append(chromosome_list_tmp[0])
@@ -66,7 +69,6 @@ class Breeder(object):
         self.chromosome_list = self.chromosome_list_new_generation
         self.chromosome_list_new_generation = []
         self.chromosome_list_paired = []
-
 
     def do_shit(self):
         self.remove_weak_chromosomes()
@@ -97,7 +99,7 @@ class Breeder(object):
         world.cities.insert(0, chromosome.magazine)
 
         result = Result(world)
-        
+
         return result
 
     def get_result_value(self):

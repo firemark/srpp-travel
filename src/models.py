@@ -5,10 +5,12 @@ from misc import distance
 from math import sqrt
 
 # NIE ZMIENIAJ TEGO ZNOWU NA KROTKI. IT WORKS.
+
+
 class Place(object):
     coordinates = None
     number = None
-    
+
     def __init__(self, x, y, number):
         self.coordinates = []
         self.coordinates.append(x)
@@ -18,14 +20,14 @@ class Place(object):
     def __str__(self):
         return str(self.coordinates)
 
-    # 40 sekund wykonywania sie
-    #def distance(self, another_place):
-    #    return sqrt(sum((ea - eb) ** 2 for ea, eb in zip(self.coordinates, another_place.coordinates)))
+    # 40 sekund wykonywania sie dla population 25, iterations 250
+    # def distance(self, another_place):
+    # return sqrt(sum((ea - eb) ** 2 for ea, eb in zip(self.coordinates,
+    # another_place.coordinates)))
 
-    # 15 sekund wykonywania sie
+    # 15 sekund wykonywania sie dla population 25, iterations 250
     def distance(self, another):
-        return sqrt((self.coordinates[0] - another.coordinates[0])**2 + (self.coordinates[1] - another.coordinates[1])**2)
-
+        return sqrt((self.coordinates[0] - another.coordinates[0]) ** 2 + (self.coordinates[1] - another.coordinates[1]) ** 2)
 
 
 class Chromosome(object):
@@ -68,7 +70,7 @@ class World(object):
             world.k = int(f.readline())
             counter = 0
             for line in f:
-                row = line.split();
+                row = line.split()
                 world.cities.append(Place(int(row[0]), int(row[1]), counter))
                 counter += 1
 
@@ -131,13 +133,14 @@ class Result(object):
     #     for route in self.routes:
     #         stream.write(" ".join(str(i) for i in route) + "\n")
 
-    # FUNKCJA-PROTOTYP, DO DEBUGU ALGORYTMU. POZNIEJ WYSWIETLISZ SOBIE JAK CHCESZ
+    # FUNKCJA-PROTOTYP, DO DEBUGU ALGORYTMU. POZNIEJ WYSWIETLISZ SOBIE JAK
+    # CHCESZ
     def print_result(self, stream=stdout):
         print self.length
         counter = -1
         for place in self.world.cities:
             print place
             counter += 1
-            if counter == 5 :
+            if counter == 5:
                 counter = 0
                 print self.world.cities[0]
