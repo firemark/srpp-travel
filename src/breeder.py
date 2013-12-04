@@ -10,8 +10,9 @@ class Breeder(object):
     chromosome_list_paired = None
     chromosomeService = None
 
-    def __init__(self):
+    def __init__(self, world):
         self.chromosome_list = []
+        self.populate_chromosome_list(world)
         self.chromosome_list_paired = []
         chromosomeService = ChromosomeService()
 
@@ -68,7 +69,7 @@ class Breeder(object):
         self.sort_chromosomes_by_value()
         return self.chromosome_list[0]
 
-    def populate_breeder(self, world):
+    def populate_chromosome_list(self, world):
         magazine_place = world.get_magazine()
         places_list = world.get_places_list()
         places_in_row = world.k

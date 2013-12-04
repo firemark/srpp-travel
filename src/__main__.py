@@ -1,8 +1,7 @@
 import argparse
-from models import World
-from chromosome import Chromosome
-from genetic import compute_result, print_result
-
+from models import World, Result
+from breeder import Breeder
+from config import iterations
 
 def get_parser():
     parser = argparse.ArgumentParser(description='Process some integers.')
@@ -21,8 +20,13 @@ def run(args):
 
     print("----")
 
-    result = compute_result(world)
-    print_result(result)
+    breeder = Breeder(world)
+    for number in xrange(iterations):
+        breeder.do_shit()
+
+    result = breeder.get_result()
+    result.compute_length()
+    result.print_result()
 
 if __name__ == "__main__":
     run(get_parser().parse_args())
