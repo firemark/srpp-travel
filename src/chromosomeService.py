@@ -37,7 +37,6 @@ class ChromosomeService(object):
         #     chromosome1.genes.append(gene)
         # return chromosome1
 
-        print "crossover chromosome"
         # get cutting range
         cut_start = randint(0, len(chromosome1.genes) -2)
         cut_end = randint(cut_start, len(chromosome1.genes) -1)
