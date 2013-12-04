@@ -1,29 +1,30 @@
 from random import shuffle, randint
 
-from chromosome import Chromosome
-from models import World
+from chromosomeService import ChromosomeService
+from models import Result, World, Chromosome, Place
 from config import mutation_chance_perc, population
 
 class Breeder(object):
 
     chromosome_list = None
     chromosome_list_paired = None
+    chromosomeService = None
 
     def __init__(self):
         self.chromosome_list = []
         self.chromosome_list_paired = []
+        chromosomeService = ChromosomeService()
 
     def mutate_chromosomes(self):
-        #print self.chromosome_list
         for chromosome in self.chromosome_list:
             random_percent = randint(1, 100)
             if random_percent <= mutation_chance_perc:
-                chromosome.do_mutation()
+                chromosomeService.mutate(chromosome)
 
     def sort_chromosomes_by_value(self):
-        #print self.chromosome_list
         for chromosome in self.chromosome_list:
-            chromosome.do_evaluation()
+            chromosomeService.evaluate(chromosome)
+        
         self.chromosome_list.sort(key=lambda chromosome: chromosome.value)
 
     def remove_weak_chromosomes(self):
@@ -49,6 +50,7 @@ class Breeder(object):
             self.chromosome_list_paired.append(pair)
 
     def crossover_chromosomes(self):
+        self.pair_chromosomes()
         for pair in self.chromosome_list_paired:
             chromosome0 = pair[0].do_crossover(pair[1])
             chromosome1 = pair[1].do_crossover(pair[0])
@@ -59,7 +61,6 @@ class Breeder(object):
 
     def do_shit(self):
         self.remove_weak_chromosomes()
-        self.pair_chromosomes()
         self.crossover_chromosomes()
         self.mutate_chromosomes()
 
@@ -67,8 +68,8 @@ class Breeder(object):
         self.sort_chromosomes_by_value()
         return self.chromosome_list[0]
 
-    def feed_breeder(self, world):
-        magazine_place = world.get_magazine_place()
+    def populate_breeder(self, world):
+        magazine_place = world.get_magazine()
         places_list = world.get_places_list()
         places_in_row = world.k
 
@@ -77,27 +78,11 @@ class Breeder(object):
             chromosome = Chromosome(places_list, magazine_place, places_in_row)
             self.chromosome_list.append(chromosome)
 
-    def chromosome_to_world(chromosome):
+    def get_result(self):
+        chromosome = self.get_best_chromosome()
         world = World()
-        magazine_tuple = (chromosome.magazine[0], chromosome.magazine[1])
-        world.set_magazine(magazine_tuple)
-
-        world.k = chromosome.places_in_row
-
-        world.cities = []
-        for place in chromosome.genes:
-            place_tuple = (place[0], place[1])
-            world.append(place_tuple)
-
-        return world
-
-
-    def get_result_world(self):
-        chromosome = self.get_best_chromosome()
-        world = self.chromosome_to_world(chromosome)
-        return world
-
-    def get_result_value(self):
-        chromosome = self.get_best_chromosome()
-        value = chromosome.value
-        return value
+        world.set_magazine = chromosome.magazine
+        world.cities[1:] = chromosome.genes[]
+        result = Result(world)
+        
+        return result

@@ -1,6 +1,38 @@
 from os.path import basename
 from sys import stdout
-from place import Place
+from random import randint
+from misc import distance
+
+
+class Place(object):
+    coordinates = None
+    number = none
+
+    def __init__(self, *cor, number):
+        self.coordinates = cor
+        number = number
+
+    def __iter__(self):
+        return iter(self.coordinates)
+
+    def __str__(self):
+        return str(self.coordinates)
+
+    def distance(self, another_place):
+        return distance(self, another_place)
+
+
+class Chromosome(object):
+
+    genes = []
+    value = -1.0
+    magazine = None
+    places_in_row = None
+
+    def __init__(self, genes, magazine, places_in_row):
+        self.genes = genes
+        self.magazine = magazine
+        self.places_in_row = places_in_row
 
 
 class World(object):
@@ -17,19 +49,8 @@ class World(object):
     def set_magazine(self, val):
         self.cities[0] = val
 
-    def get_magazine_place(self):
-        city = self.cities[0]
-        print city[0]
-        magazine_place = Place(city[0], city[1])
-        return magazine_place
-
-    # get list of place objects, without magazine
     def get_places_list(self):
-        places_list = []
-        for city in self.cities[1:] :
-            place = Place(city[0], city[1])
-            places_list.append(place)
-        return places_list
+        return self.cities[1:]
 
     magazine = property(get_magazine, set_magazine)
 
@@ -39,6 +60,61 @@ class World(object):
         world.filename = basename(path)
         with open(path) as f:
             world.k = int(f.readline())
-            world.cities = [tuple(int(i) for i in line.split()) for line in f]
+            world.cities = [Place(int(i) for i in line.split()) for line in f]
 
         return world
+
+
+class Result(object):
+
+    world = None
+    routes = None
+    length = -1.0
+
+    def __init__(self, world):
+        self.world = world
+        self.routes = []
+
+    def add_route(self, route):
+        if len(route) > self.world.k + 2:
+                raise Exception("Route is too big")
+        self.routes.append(route)
+
+    def add_route_with_magazine(self, route):
+        self.add_route([0] + route + [0])
+
+    def validate(self):
+        """raise exceptions if have any errors"""
+        routes_set = set()
+
+        for i, route_set in enumerate(set(r) for r in self.routes):
+            res = route_set & routes_set - {0}
+            if res:
+                raise Exception("repeated indexes %s in %d route" % (res, i))
+            routes_set |= route_set
+
+    def compute_length(self):
+        """compute distance, save to self.length and return"""
+        self.validate()
+
+        length = 0.0
+        cities = self.world.cities
+
+        for route in self.routes:
+            prev_city = route[0]
+            for city in route[1:]:
+                length += distance(cities[city], cities[prev_city])
+                prev_city = city
+
+        self.length = length
+        return length
+
+    def print_result(self, stream=stdout):
+        if self.length < 0.0:
+            self.compute_length()
+
+        stream.write("%f\n" % self.length)
+        stream.write("%d\n" % len(self.routes))
+
+        for route in self.routes:
+            stream.write(" ".join(str(i) for i in route) + "\n")
