@@ -14,7 +14,8 @@ def run(args):
     world = World.from_file(args.path_to_file)
 
     print("filename: %s" % world.filename)
-    print("magazine x: %d y: %d" % world.magazine)
+    #TODO FIREMARK POPRAW TO :-(
+    #print("magazine x: %d y: %d" % world.cities[0].coordinates[0], world.cities[0].coordinates[1])
     print("len of cities: %d" % len(world.cities))
     print("k: %d" % world.k)
 

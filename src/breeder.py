@@ -1,5 +1,4 @@
 from random import shuffle, randint
-
 from chromosomeService import ChromosomeService
 from models import Result, World, Chromosome, Place
 from config import mutation_chance_perc, population
@@ -14,17 +13,17 @@ class Breeder(object):
         self.chromosome_list = []
         self.populate_chromosome_list(world)
         self.chromosome_list_paired = []
-        chromosomeService = ChromosomeService()
+        self.chromosomeService = ChromosomeService()
 
     def mutate_chromosomes(self):
         for chromosome in self.chromosome_list:
             random_percent = randint(1, 100)
             if random_percent <= mutation_chance_perc:
-                chromosomeService.mutate(chromosome)
+                self.chromosomeService.mutate(chromosome)
 
     def sort_chromosomes_by_value(self):
         for chromosome in self.chromosome_list:
-            chromosomeService.evaluate(chromosome)
+            self.chromosomeService.evaluate(chromosome)
         
         self.chromosome_list.sort(key=lambda chromosome: chromosome.value)
 
@@ -53,8 +52,8 @@ class Breeder(object):
     def crossover_chromosomes(self):
         self.pair_chromosomes()
         for pair in self.chromosome_list_paired:
-            chromosome0 = pair[0].do_crossover(pair[1])
-            chromosome1 = pair[1].do_crossover(pair[0])
+            chromosome0 = self.chromosomeService.crossover(pair[0], pair[1])
+            chromosome1 = self.chromosomeService.crossover(pair[1], pair[0])
             self.chromosome_list.append(chromosome0)
             self.chromosome_list.append(chromosome1)
 
@@ -82,8 +81,9 @@ class Breeder(object):
     def get_result(self):
         chromosome = self.get_best_chromosome()
         world = World()
-        world.set_magazine = chromosome.magazine
-        world.cities[1:] = chromosome.genes[]
+        world.cities = chromosome.genes
+        world.cities.insert(0, chromosome.magazine)
+
         result = Result(world)
         
         return result

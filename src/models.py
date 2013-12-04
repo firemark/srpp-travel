@@ -2,15 +2,22 @@ from os.path import basename
 from sys import stdout
 from random import randint
 from misc import distance
+from math import sqrt
 
 
+# TODO add number of city
 class Place(object):
     coordinates = None
-    number = none
+    #number = none
 
-    def __init__(self, *cor, number):
-        self.coordinates = cor
-        number = number
+# TAK TEŻ NIE MOZNA, WYWALA SIE
+#    def __init__(self, *cor):
+#        self.coordinates = cor
+#        #number = number
+
+    def __init__(self, x, y):
+        self.coordinates.append(x)
+        self.coordinates.append(y)
 
     def __iter__(self):
         return iter(self.coordinates)
@@ -18,8 +25,12 @@ class Place(object):
     def __str__(self):
         return str(self.coordinates)
 
+# NIE, TAK NIE MOZNA. WYWALA SIE...
+#    def distance(self, another_place):
+#        return distance(self, another_place)
+
     def distance(self, another_place):
-        return distance(self, another_place)
+        return sqrt(sum((ea - eb) ** 2 for ea, eb in zip(self.coordinates, another_place.coordinates)))
 
 
 class Chromosome(object):
@@ -60,6 +71,7 @@ class World(object):
         world.filename = basename(path)
         with open(path) as f:
             world.k = int(f.readline())
+            #TODO add numbering the cities
             world.cities = [Place(int(i) for i in line.split()) for line in f]
 
         return world
