@@ -128,6 +128,7 @@ class Result(object):
 
     # FUNKCJA-PROTOTYP, DO DEBUGU ALGORYTMU. POZNIEJ WYSWIETLISZ SOBIE JAK CHCESZ
     def print_result(self, stream=stdout):
+        print self.length
         counter = -1
         for place in self.world.cities:
             print place

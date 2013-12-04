@@ -26,6 +26,7 @@ def run(args):
         breeder.do_shit()
 
     result = breeder.get_result()
+    result.length = breeder.get_result_value()
     #result.compute_length()
     result.print_result()
 
