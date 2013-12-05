@@ -22,13 +22,10 @@ def run(args):
     print("----")
 
     breeder = Breeder(world)
-    for number in xrange(iterations):
+    for _ in xrange(iterations):
         breeder.do_shit()
 
-    result = breeder.get_result()
-    # TODO FIREMARK. Wywalic ta linijke, i poprawic compute_length
-    result.length = breeder.get_result_value()
-    # result.compute_length()
+    result = Result(breeder.get_best_chromosome())
     result.print_result()
 
 
