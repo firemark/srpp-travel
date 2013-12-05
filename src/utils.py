@@ -1,4 +1,4 @@
-from numpy import array, diff, hypot, sum, insert
+from numpy import diff, hypot, sum, insert
 
 
 def add_magazine(places, magazine):
@@ -7,7 +7,7 @@ def add_magazine(places, magazine):
 
 
 def compute_distance(places):
-    d = diff(places.flatten()['cor'], axis=0)
+    d = diff(places['cor'].flatten(), axis=0)
     return sum(hypot(d[:, 0], d[:, 1]))
 
 

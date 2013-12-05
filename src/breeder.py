@@ -1,6 +1,6 @@
 from models import Result, World, Chromosome
 from config import mutation_chance_perc, population
-from numpy.random import choice, permutation, randint
+from numpy.random import choice, permutation, random
 
 
 class Breeder(object):
@@ -15,15 +15,15 @@ class Breeder(object):
 
     def mutate_chromosomes(self):
         for chromosome in self.chromosomes:
-            if randint(1, 100) <= mutation_chance_perc:
+            if random <= mutation_chance_perc / 100.0:
                 chromosome.mutate()
 
     def sort_chromosomes_by_value(self):
-        self.chromosomes.sort(key=lambda obj: obj.evaluate(), reverse=True)
+        self.chromosomes.sort(key=lambda obj: obj.evaluate())
 
     def remove_weak_chromosomes(self):
         self.sort_chromosomes_by_value()
-        del self.chromosomes[:len(self.chromosomes) // 2]
+        del self.chromosomes[len(self.chromosomes) // 2:]
 
     def crossover_chromosomes(self):
         size = len(self.chromosomes)
@@ -62,16 +62,6 @@ class Breeder(object):
             Chromosome(permutation(places), magazine, places_in_row)
             for _ in range(population)
         ]
-
-    def get_result(self):
-        chromosome = self.get_best_chromosome()
-        world = World()
-        world.cities = chromosome.genes
-        world.cities.insert(0, chromosome.magazine)
-
-        result = Result(world)
-
-        return result
 
     def get_result_value(self):
         chromosome = self.get_best_chromosome()
