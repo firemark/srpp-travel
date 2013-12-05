@@ -20,6 +20,8 @@ class Chromosome(object):
             magazine=self.magazine,
         )
 
+        return self.value
+
     def as_matrix(self):
         genes = self.genes
         return split(genes, len(genes) // self.places_in_row)
