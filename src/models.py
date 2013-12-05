@@ -3,28 +3,10 @@ from sys import stdout
 from random import randint
 from misc import distance
 from math import sqrt
+from numpy import dtype
 
-# NIE ZMIENIAJ TEGO ZNOWU NA KROTKI. IT WORKS.
 
-
-class Place(object):
-    coordinates = None
-    number = None
-
-    def __init__(self, number, cor):
-        self.coordinates = (cor[0], cor[1])
-        self.number = number
-
-    def __iter__(self):
-        return iter(self.coordinates)
-
-    def __str__(self):
-        return str(self.coordinates)
-
-    # 15 sekund wykonywania sie dla population 25, iterations 250
-    def distance(self, another):
-        return sqrt((self.coordinates[0] - another.coordinates[0]) ** 2 +
-                   (self.coordinates[1] - another.coordinates[1]) ** 2)
+placedt = dtype([('index', int), ('cor', int, 2)])
 
 
 class Chromosome(object):
@@ -58,16 +40,16 @@ class World(object):
 
     magazine = property(get_magazine, set_magazine)
 
-    # PRZEROBILEM, TERAZ DZIALA.
     @staticmethod
     def from_file(path):
         world = World()
         world.filename = basename(path)
         with open(path) as f:
             world.k = int(f.readline())
-            for i, line in enumerate(f):
-                row = [int(i) for i in line.split()]
-                world.cities.append(Place(i, row))
+            world.cities = array([
+                (i, [int(num) for num in line.split()])
+                for i, line in enumerate(f)
+            ], dtype=placedt)
 
         return world
 
@@ -100,7 +82,6 @@ class Result(object):
                 raise Exception("repeated indexes %s in %d route" % (res, i))
             routes_set |= route_set
 
-    # TODO FIREMARK. NIE DZIALA
     def compute_length(self):
         """compute distance, save to self.length and return"""
         self.validate()
