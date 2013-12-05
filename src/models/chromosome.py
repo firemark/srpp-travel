@@ -16,13 +16,13 @@ class Chromosome(object):
 
     def evaluate(self):
         self.value = compute_distance_with_magazine(
-            places=self.as_matrix(),
+            places=self.to_routes(),
             magazine=self.magazine,
         )
 
         return self.value
 
-    def as_matrix(self):
+    def to_routes(self):
         genes = self.genes
         return split(genes, len(genes) // self.places_in_row)
 

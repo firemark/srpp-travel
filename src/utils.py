@@ -12,5 +12,5 @@ def compute_distance(places):
 
 
 def compute_distance_with_magazine(places, magazine):
-    with_magazine = join_magazine(places, magazine)
+    with_magazine = add_magazine(places, magazine)
     return compute_distance(with_magazine)

@@ -1,9 +1,8 @@
 from os.path import basename
 from sys import stdout
-from misc import distance
 from types import placedt
-from numpy import array, append
-from utils import join_magazine, compute_distance
+from numpy import array
+from utils import add_magazine, compute_distance
 
 
 class World(object):
@@ -45,7 +44,7 @@ class Result(object):
     distance = -1.0
 
     def __init__(self, routes):
-        self.routes = join_magazine(routes)
+        self.routes = add_magazine(routes)
 
     def validate(self):
         """raise exceptions if have any errors"""
