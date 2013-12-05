@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 install_requires = [
-    #'numpy==1.8.0'
+    'numpy==1.8.0'
 ]
 
 dependency_links = [
