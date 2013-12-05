@@ -62,4 +62,3 @@ class Breeder(object):
             Chromosome(permutation(places), magazine, places_in_row)
             for _ in range(population)
         ]
-

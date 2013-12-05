@@ -51,7 +51,7 @@ class Result(object):
         routes_set = set()
 
         for i, route_set in enumerate(set(r) for r in self.routes):
-            res = route_set & routes_set - {0}
+            res = (route_set - {0}) & routes_set
             if res:
                 raise Exception("repeated indexes %s in %d route" % (res, i))
             routes_set |= route_set
