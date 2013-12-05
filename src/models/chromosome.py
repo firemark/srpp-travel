@@ -1,5 +1,5 @@
 from numpy.random import choice
-from numpy import split
+from numpy import array_split
 from utils import compute_distance_with_magazine
 
 
@@ -16,7 +16,7 @@ class Chromosome(object):
 
     def evaluate(self):
         self.value = compute_distance_with_magazine(
-            places=self.to_routes(),
+            routes=self.to_routes(),
             magazine=self.magazine,
         )
 
@@ -24,7 +24,7 @@ class Chromosome(object):
 
     def to_routes(self):
         genes = self.genes
-        return split(genes, len(genes) // self.places_in_row)
+        return array_split(genes, len(genes) // self.places_in_row)
 
     def mutate(self):
         g = self.genes

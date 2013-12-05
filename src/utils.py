@@ -1,16 +1,21 @@
-from numpy import diff, hypot, sum, insert
+from numpy import diff, hypot, sum, insert, hstack
 
 
-def add_magazine(places, magazine):
+def add_magazine(routes, magazine):
     """ add magazine as first element in every vector """
-    return insert(places, 0, magazine, axis=1)
+    return [insert(route, 0, magazine, axis=0) for route in routes]
 
 
-def compute_distance(places):
-    d = diff(places['cor'].flatten(), axis=0)
+def to_matrix_of_cords(routes):
+    return hstack(routes)['cor']
+
+
+def compute_distance(routes):
+    #
+    d = diff(to_matrix_of_cords(routes), axis=0)
     return sum(hypot(d[:, 0], d[:, 1]))
 
 
-def compute_distance_with_magazine(places, magazine):
-    with_magazine = add_magazine(places, magazine)
-    return compute_distance(with_magazine)
+def compute_distance_with_magazine(routes, magazine):
+    
+    return compute_distance(add_magazine(routes, magazine))

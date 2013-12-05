@@ -26,15 +26,15 @@ class Breeder(object):
         del self.chromosomes[len(self.chromosomes) // 2:]
 
     def crossover_chromosomes(self):
-        size = len(self.chromosomes)
-        pair_chromosomes = choice(self.chromosomes, [size // 2, 2],
-                                  replace=False)
+        chromosomes = self.chromosomes
+        size = len(chromosomes)
+        pair_chromosomes = choice(chromosomes, [size // 2, 2], replace=False)
 
-        self.chromosomes_new_generation = sum(
+        self.chromosomes_new_generation += sum(
             (
                 [a.crossover(b), b.crossover(a)]
                 for a, b in pair_chromosomes
-            ), start=[]
+            ), []
         )
 
     def overwrite_old_generation_with_new(self):
@@ -49,7 +49,7 @@ class Breeder(object):
         self.overwrite_old_generation_with_new()
         self.mutate_chromosomes()
 
-    def get_best_chromosome(self):
+    def get_winner(self):
         self.sort_chromosomes_by_value()
         return self.chromosomes[0]
 
@@ -63,6 +63,3 @@ class Breeder(object):
             for _ in range(population)
         ]
 
-    def get_result_value(self):
-        chromosome = self.get_best_chromosome()
-        return chromosome.value

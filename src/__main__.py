@@ -15,7 +15,6 @@ def run(args):
     world = World.from_file(args.path_to_file)
 
     print("filename: %s" % world.filename)
-    print("magazine x: {} y: {}".format(*world.magazine))
     print("len of cities: %d" % len(world.cities))
     print("k: %d" % world.k)
 
@@ -25,7 +24,8 @@ def run(args):
     for _ in xrange(iterations):
         breeder.do_shit()
 
-    result = Result(breeder.get_best_chromosome())
+    winner = breeder.get_winner()
+    result = Result(winner.to_routes(), winner.magazine)
     result.print_result()
 
 

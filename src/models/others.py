@@ -19,7 +19,7 @@ class World(object):
     def set_magazine(self, val):
         self.cities[0] = val
 
-    def get_routes_list(self):
+    def get_places_list(self):
         return self.cities[1:]
 
     magazine = property(get_magazine, set_magazine)
@@ -43,8 +43,8 @@ class Result(object):
     routes = None
     distance = -1.0
 
-    def __init__(self, routes):
-        self.routes = add_magazine(routes)
+    def __init__(self, routes, magazine):
+        self.routes = add_magazine(routes, magazine)
 
     def validate(self):
         """raise exceptions if have any errors"""
@@ -66,8 +66,8 @@ class Result(object):
         if self.distance < 0.0:
             self.compute_distance()
 
-        stream.write("%f\n" % self.distance)
-        stream.write("%d\n" % self.routes.shape[0])
+        print >> stream, self.distance
+        print >> stream, len(self.routes)
 
-        for ids in self.routes["index"]:
-            stream.write(" ".join(str(i) for i in ids) + "0\n")
+        for route in self.routes:
+            print >> stream, " ".join(str(i) for i in route["index"]), 0
