@@ -1,6 +1,5 @@
 from random import shuffle, randint
-from chromosomeService import ChromosomeService
-from models import Result, World, Chromosome, Place
+from models import Result, World, Chromosome
 from config import mutation_chance_perc, population
 
 
@@ -9,24 +8,22 @@ class Breeder(object):
     chromosome_list = None
     chromosome_list_paired = None
     chromosome_list_new_generation = None
-    chromosomeService = None
 
     def __init__(self, world):
         self.chromosome_list = []
         self.populate_chromosome_list(world)
         self.chromosome_list_paired = []
         self.chromosome_list_new_generation = []
-        self.chromosomeService = ChromosomeService()
 
     def mutate_chromosomes(self):
         for chromosome in self.chromosome_list:
             random_percent = randint(1, 100)
             if random_percent <= mutation_chance_perc:
-                self.chromosomeService.mutate(chromosome)
+                chromosome.mutate()
 
     def sort_chromosomes_by_value(self):
         for chromosome in self.chromosome_list:
-            self.chromosomeService.evaluate(chromosome)
+            self.evaluate(chromosome)
 
         self.chromosome_list.sort(
             key=lambda chromosome: chromosome.value, reverse=True)
@@ -58,12 +55,11 @@ class Breeder(object):
 
     def crossover_chromosomes(self):
         self.pair_chromosomes()
-        for pair in self.chromosome_list_paired:
-            chromosome0 = self.chromosomeService.crossover(pair[0], pair[1])
-            self.chromosome_list_new_generation.append(chromosome0)
-
-            chromosome1 = self.chromosomeService.crossover(pair[1], pair[0])
-            self.chromosome_list_new_generation.append(chromosome1)
+        for chr_A, chr_B in self.chromosome_list_paired:
+            self.chromosome_list_new_generation += [
+                chr_A.crossover(chr_B),
+                chr_B.crossover(chr_A)
+            ]
 
     def overwrite_old_generation_with_new(self):
         self.chromosome_list = self.chromosome_list_new_generation
