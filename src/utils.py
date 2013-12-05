@@ -7,7 +7,7 @@ def add_magazine(places, magazine):
 
 
 def compute_distance(places):
-    d = diff(places['cor'], axis=0)
+    d = diff(places.flatten()['cor'], axis=0)
     return sum(hypot(d[:, 0], d[:, 1]))
 
 
