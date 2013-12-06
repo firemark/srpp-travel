@@ -1,6 +1,7 @@
-from numpy.random import choice, randint
-from numpy import array_split, in1d
+from numpy.random import randint
+from numpy import array_split, unique
 from utils import compute_distance_with_magazine
+import cfuns
 
 
 class Chromosome(object):
@@ -28,25 +29,23 @@ class Chromosome(object):
 
     def mutate(self):
         g = self.genes
-        gen_a, gen_b = choice(len(g), 2)
+        len_g = len(g) - 1
+        gen_a, gen_b = randint(0, len_g), randint(0, len_g)
         g[gen_b], g[gen_a] = g[gen_a], g[gen_b]
+        exit()
 
     def crossover(self, other):
         """ A x B -> new chromosome """
         new_genes = self.genes.copy()
         other_genes = other.genes
-        len_genes = len(self.genes)
+        len_genes = len(new_genes)
 
-        a = randint(0, len_genes - 2)
-        b = randint(a, len_genes - 1)
+        a = randint(0, len_genes - 3)
+        b = randint(a + 1, len_genes - 1)
 
-        genes_range = slice(a, b)
-        sliced_other_genes = other_genes[genes_range]
-        sliced_new_genes = new_genes[genes_range]
+        genes_range = (a, b)
+        cfuns.crossover_with_range(new_genes, other_genes, genes_range)
 
-        mask = in1d(new_genes["index"], sliced_other_genes["index"])
-        new_genes[mask] = sliced_new_genes
-            
-        sliced_new_genes = sliced_other_genes
+        assert len(unique(new_genes)) != len(new_genes)
 
         return Chromosome(new_genes, self.magazine, self.places_in_row)

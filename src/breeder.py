@@ -1,6 +1,7 @@
-from models import Result, World, Chromosome
+from models import Chromosome
 from config import mutation_chance_perc, population
-from numpy.random import choice, permutation, random
+from numpy.random import random, permutation, shuffle
+from numpy import array
 
 
 class Breeder(object):
@@ -27,8 +28,14 @@ class Breeder(object):
 
     def crossover_chromosomes(self):
         chromosomes = self.chromosomes
-        size = len(chromosomes)
-        pair_chromosomes = choice(chromosomes, [size // 2, 2], replace=False)
+        half_size = len(chromosomes) // 2
+
+        #only even
+        pair_chromosomes = array(chromosomes[:half_size * 2])
+        shuffle(pair_chromosomes)
+
+        #group [a,b,c,d...] to [(a,b), (c,d)]
+        pair_chromosomes.shape = (half_size, 2)
 
         self.chromosomes_new_generation += sum(
             (
