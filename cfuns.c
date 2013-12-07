@@ -1,40 +1,49 @@
 #include <Python.h>
 #include <numpy/ndarrayobject.h>
+#include <string.h>
 
-struct s_placedt {
-    int index;
-    int cor[2];
-} typedef placedt;
+const int find_gen(const int *genes, const int seeked_gen, const int len, const int size){
+    int i;
+    for(i=0; i < len; i+=size)
+        if(genes[i] == seeked_gen)
+            return 1;
+    return 0;
+}
 
-static PyObject* crossover_with_range(PyObject *self, PyObject *args){
+const void find_empty_and_change(const int *genes, const int *gen_ptr, const int len, const int size){
+    int i=0;
+    for(i=0; i < len; i+=size){
+        if (genes[i] == -1){
+            memcpy(&genes[i], gen_ptr, size*sizeof(int));
+            return;
+        }
+    }
+}
 
-    PyArrayObject *a, *b;
-    int i, start, end;
+static PyObject* crossover_fill(PyObject *self, PyObject *args){
 
-    printf("wheee\n");
+    PyArrayObject *obj_child, *obj_parent;
+    int i, j;
 
-    if (!PyArg_ParseTuple(args, "OO(ii)", &a, &b, &start, &end))
+    if (!PyArg_ParseTuple(args, "OO", &obj_child, &obj_parent))
         return NULL;
 
-    printf("loaded tuple\n range = (%d, %d)", start, end);
+    //placedt has 3 ints
+    const int *child = PyArray_DATA(obj_child);
+    const int *parent = PyArray_DATA(obj_parent);
+    const int size = PyArray_ITEMSIZE(obj_child) / sizeof(int);
+    const int len = PyArray_DIM(obj_child, 0) * size;
 
-    placedt *data_a = PyArray_DATA(a);
-    placedt *data_b = PyArray_DATA(b);
-
-    int len_a = PyArray_DIM(a, 0);
-    int len_b = PyArray_DIM(b, 0);
-    printf("len_a: %d leb_b: %d\n", len_a, len_b);
-
-    for(i=0; i < len_a; i++){
-        printf("%d: %d, %d\n", i, data_a[i*2].index, data_b[i*2].index);
-    }
+    for(i=0; i < len; i+=size)
+        if(!find_gen(child, parent[i], len, size))
+            find_empty_and_change(child, &parent[i], len, size);
 
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyMethodDef methods[] = {
-    {"crossover_with_range", crossover_with_range, METH_VARARGS, ""},
+    {"crossover_fill", crossover_fill, METH_VARARGS, ""},
     {NULL}
 };
 

@@ -1,7 +1,8 @@
 from numpy.random import randint
-from numpy import array_split, unique
+from numpy import array_split, unique, array
 from utils import compute_distance_with_magazine
-import cfuns
+from models import placedt
+from cfuns import crossover_fill
 
 
 class Chromosome(object):
@@ -36,16 +37,16 @@ class Chromosome(object):
 
     def crossover(self, other):
         """ A x B -> new chromosome """
-        new_genes = self.genes.copy()
+        genes = self.genes
         other_genes = other.genes
-        len_genes = len(new_genes)
+        len_genes = len(genes)
 
         a = randint(0, len_genes - 3)
         b = randint(a + 1, len_genes - 1)
+        genes_range = slice(a, b)
 
-        genes_range = (a, b)
-        cfuns.crossover_with_range(new_genes, other_genes, genes_range)
-
-        assert len(unique(new_genes)) != len(new_genes)
+        new_genes = array((-1, (-1, -1)), dtype=placedt).repeat(len_genes)
+        new_genes[genes_range] = other_genes[genes_range]
+        crossover_fill(new_genes, genes)
 
         return Chromosome(new_genes, self.magazine, self.places_in_row)
