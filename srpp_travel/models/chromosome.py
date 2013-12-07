@@ -1,7 +1,7 @@
 from numpy.random import randint
-from numpy import array_split, unique, array
-from utils import compute_distance_with_magazine
-from models import placedt
+from numpy import array_split, array
+from ..utils import compute_distance_with_magazine
+from types import placedt
 from cfuns import crossover_fill
 
 

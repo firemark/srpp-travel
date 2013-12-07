@@ -1,5 +1,5 @@
-from models import Chromosome
-from config import mutation_chance_perc, population
+from chromosome import Chromosome
+from ..config import mutation_chance_perc, population
 from numpy.random import random, permutation, shuffle
 from numpy import array
 

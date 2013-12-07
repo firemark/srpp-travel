@@ -2,7 +2,7 @@ from os.path import basename
 from sys import stdout
 from types import placedt
 from numpy import array
-from utils import add_magazine, compute_distance
+from ..utils import add_magazine, compute_distance
 
 
 class World(object):

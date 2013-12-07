@@ -18,13 +18,14 @@ ext_modules = [
     Extension('cfuns', ['cfuns.c'])
 ]
 
+print find_packages()
+
 if __name__ == '__main__':
-    setup(name='srpp_travel',
+    setup(name='srpp-travel',
           version='0.1',
           author=["Marek Piechula", "Michał Wesoły"],
           author_email=[],
-          package_dir={'': 'src'},
-          packages=find_packages('src'),
+          packages=find_packages(),
           install_requires=install_requires,
           dependency_links=dependency_links,
           include_dirs=[np.get_include()],

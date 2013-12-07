@@ -1,6 +1,5 @@
 import argparse
-from models import World, Result
-from breeder import Breeder
+from models import World, Result, Breeder
 from config import iterations
 
 

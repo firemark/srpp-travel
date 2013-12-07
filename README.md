@@ -1,6 +1,13 @@
 srpp-travel
 ===========
 
-example:
-`python2 src/__main__.py data/100_k=5`
-pypy src/__main__.py data/100_k=5
+##install
+`
+virtualenv venv
+source venv/bin/activate
+pip install numpy==1.6.0
+python setup.py develop
+`
+
+usage:
+`python -m srpp_travel data/100_k=5`
