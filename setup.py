@@ -8,17 +8,14 @@ except ImportError:
     exit()
 
 install_requires = [
-    'numpy==1.6.0'
-]
-
-dependency_links = [
+    'numpy==1.6.0',
+    #'processing==0.52',
+    'matplotlib==1.3.1'
 ]
 
 ext_modules = [
-    Extension('cfuns', ['cfuns.c'])
+    Extension('srpp_travel.cfuns', ['srpp_travel/cfuns.c'])
 ]
-
-print find_packages()
 
 if __name__ == '__main__':
     setup(name='srpp-travel',
@@ -27,7 +24,6 @@ if __name__ == '__main__':
           author_email=[],
           packages=find_packages(),
           install_requires=install_requires,
-          dependency_links=dependency_links,
           include_dirs=[np.get_include()],
           ext_modules=ext_modules
           )

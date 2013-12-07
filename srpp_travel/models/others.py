@@ -41,24 +41,15 @@ class World(object):
 class Result(object):
 
     routes = None
+    magazine = None
     distance = -1.0
 
     def __init__(self, routes, magazine):
         self.routes = add_magazine(routes, magazine)
-
-    def validate(self):
-        """raise exceptions if have any errors"""
-        routes_set = set()
-
-        for i, route_set in enumerate(set(r) for r in self.routes):
-            res = (route_set - {0}) & routes_set
-            if res:
-                raise Exception("repeated indexes %s in %d route" % (res, i))
-            routes_set |= route_set
+        self.magazine = magazine
 
     def compute_distance(self):
         """compute distance, save to self.length and return"""
-        self.validate()
         self.distance = compute_distance(self.routes)
         return self.distance
 

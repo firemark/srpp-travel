@@ -13,18 +13,19 @@ def get_parser():
 def run(args):
     world = World.from_file(args.path_to_file)
 
-    print("filename: %s" % world.filename)
-    print("len of cities: %d" % len(world.cities))
-    print("k: %d" % world.k)
-
-    print("----")
-
     breeder = Breeder(world)
+    scores = []
     for _ in xrange(iterations):
         breeder.do_shit()
+        scores.append(breeder.get_winner().value)
 
     winner = breeder.get_winner()
     result = Result(winner.to_routes(), winner.magazine)
+
+    import pylab as pl
+    pl.plot(scores)
+    pl.show()
+
     result.print_result()
 
 
