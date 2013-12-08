@@ -1,5 +1,5 @@
 import argparse
-from models import World, Result
+from models import World
 from breeder import Breeder
 from config import iterations
 
@@ -13,24 +13,14 @@ def get_parser():
 
 def run(args):
     world = World.from_file(args.path_to_file)
-
-    print("filename: %s" % world.filename)
-    # TODO FIREMARK. NIE DZIALA
-    #print("magazine x: %d y: %d" % world.magazine)
-    print("len of cities: %d" % len(world.cities))
-    print("k: %d" % world.k)
-
-    print("----")
-
     breeder = Breeder(world)
+    scores = []
+
     for number in xrange(iterations):
         breeder.do_shit()
+        scores.append(breeder.get_best_chromosome().value)
 
-    result = breeder.get_result()
-    # TODO FIREMARK. Wywalic ta linijke, i poprawic compute_length
-    result.length = breeder.get_result_value()
-    # result.compute_length()
-    result.print_result()
+    breeder.print_result(world)
 
 
 if __name__ == "__main__":
