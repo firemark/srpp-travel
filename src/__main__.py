@@ -22,6 +22,22 @@ def run(args):
 
     breeder.print_result(world)
 
+    try:
+        import pylab as pl
+    except ImportError:
+        exit()
+    # results
+    winner = breeder.get_best_chromosome()
+    pl.plot(scores)
+    pl.title("The best result: %d" % winner.value)
+    pl.show()
+
+    # graph
+
+    #cities = world.cities["cor"][1:]
+    #magazine = world.magazine["cor"]
+    #cors = winner.to_routes_with_magazine()["cor"]
+
 
 if __name__ == "__main__":
     run(get_parser().parse_args())
