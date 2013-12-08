@@ -1,7 +1,8 @@
 from chromosome import Chromosome
 from ..config import mutation_chance_perc, population
 from numpy.random import random, permutation, shuffle
-from numpy import array
+from numpy import array, argwhere, split
+from sys import stdout
 
 
 class Breeder(object):
@@ -16,11 +17,11 @@ class Breeder(object):
 
     def mutate_chromosomes(self):
         for chromosome in self.chromosomes:
-            if random <= mutation_chance_perc / 100.0:
+            if random <= mutation_chance_perc:
                 chromosome.mutate()
 
     def sort_chromosomes_by_value(self):
-        self.chromosomes.sort(key=lambda obj: obj.evaluate())
+        self.chromosomes.sort(key=Chromosome.evaluate)
 
     def remove_weak_chromosomes(self):
         self.sort_chromosomes_by_value()
@@ -30,11 +31,11 @@ class Breeder(object):
         chromosomes = self.chromosomes
         half_size = len(chromosomes) // 2
 
-        #only even
+        # only even
         pair_chromosomes = array(chromosomes[:half_size * 2])
         shuffle(pair_chromosomes)
 
-        #group [a,b,c,d...] to [(a,b), (c,d)]
+        # group [a,b,c,d...] to [(a,b), (c,d)]
         pair_chromosomes.shape = (half_size, 2)
 
         self.chromosomes_new_generation += sum(
@@ -69,3 +70,16 @@ class Breeder(object):
             Chromosome(permutation(places), magazine, places_in_row)
             for _ in range(population)
         ]
+
+    def print_result(self, stream=stdout):
+
+        winner = self.get_winner()
+        routes = winner.to_routes_with_magazine()["index"]
+        # http://stackoverflow.com/questions/5274243/
+        splited = split(routes, argwhere(routes == 0))[1:-1]
+
+        print >> stream, winner.value
+        print >> stream, len(splited)
+
+        for route in splited:
+            print >> stream, " ".join(str(i) for i in route), 0

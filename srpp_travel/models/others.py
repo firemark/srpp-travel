@@ -1,8 +1,6 @@
 from os.path import basename
-from sys import stdout
 from types import placedt
 from numpy import array
-from ..utils import add_magazine, compute_distance
 
 
 class World(object):
@@ -36,29 +34,3 @@ class World(object):
             ], dtype=placedt)
 
         return world
-
-
-class Result(object):
-
-    routes = None
-    magazine = None
-    distance = -1.0
-
-    def __init__(self, routes, magazine):
-        self.routes = add_magazine(routes, magazine)
-        self.magazine = magazine
-
-    def compute_distance(self):
-        """compute distance, save to self.length and return"""
-        self.distance = compute_distance(self.routes)
-        return self.distance
-
-    def print_result(self, stream=stdout):
-        if self.distance < 0.0:
-            self.compute_distance()
-
-        print >> stream, self.distance
-        print >> stream, len(self.routes)
-
-        for route in self.routes:
-            print >> stream, " ".join(str(i) for i in route["index"]), 0

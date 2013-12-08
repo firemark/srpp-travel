@@ -1,5 +1,5 @@
 from numpy.random import randint
-from numpy import array_split, array, insert, arange, append
+from numpy import array, insert, arange, append
 from ..utils import compute_distance
 from types import placedt
 from ..cfuns import crossover_fill
@@ -18,24 +18,19 @@ class Chromosome(object):
 
     def evaluate(self):
         self.value = compute_distance(
-            routes=self.to_cords_with_magazine(),
+            routes=self.to_routes_with_magazine()["cor"]
         )
 
         return self.value
 
-    def to_routes(self):
-        genes = self.genes
-
-        return array_split(genes, len(genes) // self.places_in_row)
-
-    def to_cords_with_magazine(self):
+    def to_routes_with_magazine(self):
         cors = self.genes
         magazine = self.magazine
         k = self.places_in_row
         len_cors = len(cors)
 
-        cors = insert(cors, arange(len_cors//k + 1) * k, magazine)
-        return append(cors, magazine)["cor"]
+        cors = insert(cors, arange(len_cors // k + 1) * k, magazine)
+        return append(cors, magazine)
 
     def mutate(self):
         g = self.genes

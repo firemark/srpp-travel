@@ -11,7 +11,6 @@ def to_matrix_of_cords(routes):
 
 
 def compute_distance(routes):
-    #
     d = diff(routes, axis=0)
     return sum(hypot(d[:, 0], d[:, 1]))
 
