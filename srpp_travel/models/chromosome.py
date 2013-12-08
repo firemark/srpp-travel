@@ -3,7 +3,7 @@ from numpy import array, insert, arange, append
 from ..utils import compute_distance
 from types import placedt
 from ..cfuns import crossover_fill
-from numpy import array, argwhere, split
+from numpy import array, argwhere, split, unique, any, sort, hstack
 
 
 class Chromosome(object):
@@ -33,26 +33,34 @@ class Chromosome(object):
         cors = insert(cors, arange(len_cors // k + 1) * k, magazine)
         return append(cors, magazine)
 
+    def __repr__(self):
+        return "Chr(d=%.2fk)" % (self.value / 1000)
+
     def mutate(self):
         g = self.genes
         len_g = len(g) - 1
         gen_a, gen_b = randint(0, len_g), randint(0, len_g)
-        g[gen_b], g[gen_a] = g[gen_a], g[gen_b]
-        exit()
+        temp_b = g[gen_b].copy()
+        temp_a = g[gen_a].copy()
+        g[gen_b] = temp_a
+        g[gen_a] = temp_b
 
     def crossover(self, other):
         """ A x B -> new chromosome """
-        genes = self.genes
+        new_genes = self.genes.copy()
         other_genes = other.genes
-        len_genes = len(genes)
+        len_genes = len(new_genes)
 
         a = randint(0, len_genes - 3)
         b = randint(a + 1, len_genes - 1)
-        genes_range = slice(a, b)
 
-        new_genes = array((-1, (-1, -1)), dtype=placedt).repeat(len_genes)
-        new_genes[genes_range] = other_genes[genes_range]
-        crossover_fill(new_genes, genes)
+        new_genes = hstack((new_genes[:a], other_genes[a:b], new_genes[a:]))
+
+        # http://stackoverflow.com/questions/12926898/
+        indexes = unique(new_genes["index"], return_index=True)[1]
+        new_genes = array([new_genes[i] for i in sort(indexes)], dtype=placedt)
+
+        #assert len(unique(new_genes)) == len_genes
 
         return Chromosome(new_genes, self.magazine, self.places_in_row)
 

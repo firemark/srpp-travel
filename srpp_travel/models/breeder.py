@@ -16,7 +16,7 @@ class Breeder(object):
 
     def mutate_chromosomes(self):
         for chromosome in self.chromosomes:
-            if random <= mutation_chance_perc:
+            if random() <= mutation_chance_perc:
                 chromosome.mutate()
 
     def sort_chromosomes_by_value(self):
