@@ -36,8 +36,7 @@ class ChromosomeService(object):
         cut_start = randint(0, len(chromosome1.genes) - 2)
         cut_end = randint(cut_start, len(chromosome1.genes) - 1)
 
-        child_genes_ugly = []
-        child_genes_ugly = chromosome2.genes
+        child_genes_ugly = chromosome2.genes[:]
 
         # paste fragment of chromosome1 genes
         child_genes_ugly[cut_start:cut_start] = chromosome1.genes[
