@@ -22,6 +22,11 @@ def run(args):
 
     breeder.print_result(world)
 
+    from os import system
+
+    gnuplot = """echo "plot \\"-\\" with lines\n{}" | gnuplot -p """
+    system(gnuplot.format("\n".join(str(i) for i in scores)))
+
     try:
         import pylab as pl
     except ImportError:
