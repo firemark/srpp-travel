@@ -1,6 +1,6 @@
 from random import shuffle, randint
 from chromosomeService import ChromosomeService
-from models import Result, World, Chromosome, Place
+from models import World, Chromosome, Place
 from config import mutation_chance_perc, population
 
 
@@ -92,15 +92,25 @@ class Breeder(object):
             chromosome = Chromosome(places_list, magazine_place, places_in_row)
             self.chromosome_list.append(chromosome)
 
-    def get_result(self):
+    def print_result(self, world):
         chromosome = self.get_best_chromosome()
-        world = World()
-        world.cities = chromosome.genes
-        world.cities.insert(0, chromosome.magazine)
+        k = world.k
 
-        result = Result(world)
-
-        return result
+        print chromosome.value
+        print len(chromosome.genes)
+        validate_set = set(chromosome.genes)
+        assert len(validate_set) == len(chromosome.genes)
+        i = 0
+        for gen in chromosome.genes:
+            if i == 0:
+                print 0,
+            print gen.number,
+            i += 1
+            if i == k:
+                i = 0
+                print 0
+        if i != 0:
+            print 0,
 
     def get_result_value(self):
         chromosome = self.get_best_chromosome()
