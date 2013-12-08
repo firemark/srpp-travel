@@ -3,6 +3,7 @@ from numpy import array, insert, arange, append
 from ..utils import compute_distance
 from types import placedt
 from ..cfuns import crossover_fill
+from numpy import array, argwhere, split
 
 
 class Chromosome(object):
@@ -54,3 +55,14 @@ class Chromosome(object):
         crossover_fill(new_genes, genes)
 
         return Chromosome(new_genes, self.magazine, self.places_in_row)
+
+    def print_result(self):
+        routes = self.to_routes_with_magazine()["index"]
+        # http://stackoverflow.com/questions/5274243/
+        splited = split(routes, argwhere(routes == 0))[1:-1]
+
+        print self.value
+        print len(splited)
+
+        for route in splited:
+            print " ".join(str(i) for i in route), 0

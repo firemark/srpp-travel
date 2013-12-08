@@ -1,8 +1,7 @@
 from chromosome import Chromosome
 from ..config import mutation_chance_perc, population
 from numpy.random import random, permutation, shuffle
-from numpy import array, argwhere, split
-from sys import stdout
+from numpy import array
 
 
 class Breeder(object):
@@ -70,16 +69,3 @@ class Breeder(object):
             Chromosome(permutation(places), magazine, places_in_row)
             for _ in range(population)
         ]
-
-    def print_result(self, stream=stdout):
-
-        winner = self.get_winner()
-        routes = winner.to_routes_with_magazine()["index"]
-        # http://stackoverflow.com/questions/5274243/
-        splited = split(routes, argwhere(routes == 0))[1:-1]
-
-        print >> stream, winner.value
-        print >> stream, len(splited)
-
-        for route in splited:
-            print >> stream, " ".join(str(i) for i in route), 0

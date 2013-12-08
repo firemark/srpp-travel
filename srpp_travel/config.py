@@ -1,3 +1,3 @@
-mutation_chance_perc = 1 * 0.01
-population = 160
+mutation_chance_perc = 50 * 0.01
+population = 150
 iterations = 300
