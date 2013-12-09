@@ -1,0 +1,53 @@
+***1000_k=50***
+
+195602.128301
+population = 50
+iterations = 2000
+real	0m28.378s
+
+
+172044.031735
+population = 50
+iterations = 4000
+real	1m1.432s
+
+
+162593.911953
+population = 100
+iterations = 2000
+real	1m2.125s
+
+
+151497.612966
+population = 100
+iterations = 4000
+real	1m49.123s
+
+
+147493.543941
+population = 200
+iterations = 2000
+real	1m54.395s
+
+
+141389.066384
+population = 400
+iterations = 1000
+real	2m3.171s
+
+149508.737092
+population = 800
+iterations = 500
+real	1m57.325s
+
+***1000_k=350***
+
+137572.536104
+population = 800
+iterations = 500
+real	1m48.110s
+
+122645.439098
+population = 400
+iterations = 1000
+real	1m55.283s

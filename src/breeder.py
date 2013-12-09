@@ -37,8 +37,8 @@ class Breeder(object):
         del self.chromosome_list[:half_length]
 
     def pair_chromosomes(self):
-        chromosome_list_tmp = []
-        chromosome_list_tmp = self.chromosome_list
+        #chromosome_list_tmp = []
+        chromosome_list_tmp = self.chromosome_list[:]
         while(len(chromosome_list_tmp) > 1):
             pair = []
             random_number1 = randint(0, len(chromosome_list_tmp) - 1)
@@ -65,10 +65,11 @@ class Breeder(object):
             chromosome1 = self.chromosomeService.crossover(pair[1], pair[0])
             self.chromosome_list_new_generation.append(chromosome1)
 
+        self.chromosome_list_paired = []
+
     def overwrite_old_generation_with_new(self):
         self.chromosome_list = self.chromosome_list_new_generation
         self.chromosome_list_new_generation = []
-        self.chromosome_list_paired = []
 
     def do_shit(self):
         self.remove_weak_chromosomes()
