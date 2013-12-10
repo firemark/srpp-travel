@@ -70,7 +70,7 @@ class Breeder(object):
         self.chromosome_list_new_generation = []
         self.chromosome_list_paired = []
 
-    def do_shit(self):
+    def do_iteration(self):
         self.remove_weak_chromosomes()
         # crossover needs to be done two times
         self.crossover_chromosomes()

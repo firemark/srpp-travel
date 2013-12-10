@@ -17,7 +17,7 @@ def run(args):
     scores = []
 
     for number in xrange(iterations):
-        breeder.do_shit()
+        breeder.do_iteration()
         scores.append(breeder.get_best_chromosome().value)
 
     breeder.print_result(world)
