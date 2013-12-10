@@ -14,18 +14,18 @@ def get_parser():
 def run(args):
     world = World.from_file(args.path_to_file)
     breeder = Breeder(world)
-    scores = []
+    #scores = []
 
     for number in xrange(iterations):
-        breeder.do_shit()
-        scores.append(breeder.get_best_chromosome().value)
+        breeder.do_iteration()
+        #scores.append(breeder.get_best_chromosome().value)
 
     breeder.print_result(world)
 
-    from os import system
+    #from os import system
 
-    gnuplot = """echo "plot \\"-\\" with lines\n{}" | gnuplot -p """
-    system(gnuplot.format("\n".join(str(i) for i in scores)))
+    #gnuplot = """echo "plot \\"-\\" with lines\n{}" | gnuplot -p """
+    #system(gnuplot.format("\n".join(str(i) for i in scores)))
 
 if __name__ == "__main__":
     run(get_parser().parse_args())
