@@ -47,6 +47,7 @@ class ChromosomeService(object):
         # create and return child chromosome
         child_chromosome = Chromosome(
             child_genes, chromosome1.magazine, chromosome1.places_in_row)
+        
         return child_chromosome
 
     # HERE BE DRAGONS. FAST AND FAST. DO NOT TOUCH IT
