@@ -3,7 +3,7 @@ from models import World
 from breeder import Breeder
 from config import iterations
 from sys import stdout
-
+from time import time
 
 def get_parser():
     parser = argparse.ArgumentParser(description='Process some integers.')
@@ -19,12 +19,14 @@ def run(args):
 
     itr = 0
 
+    t = time()
     try:
         while True:
             for i in xrange(100):
                 breeder.do_iteration()
             itr += 100
-            print "%s >> iter[%d] = %.2f" % (
+            print "t: %.2f %s >> iter[%d] = %.2f" % (
+                time() - t,
                 world.filename,
                 itr,
                 breeder.get_best_chromosome().value
@@ -32,7 +34,7 @@ def run(args):
     except KeyboardInterrupt:
         pass
 
-    st = open(args.output, "a") if args.output  else stdout
+    st = open(args.output, "w") if args.output  else stdout
     breeder.print_result(world, st)
 
 if __name__ == "__main__":
